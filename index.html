@@ -3,22 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>微信跳转页</title>
+  <title>添加我的微信</title>
   <style>
     body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
     h1 { color: #333; }
-    img { max-width: 300px; margin: 20px auto; display: block; }
-    .btn { 
-      display: inline-block; padding: 12px 24px; background: #07c160; 
-      color: white; border-radius: 5px; text-decoration: none; font-size: 18px;
-      margin-top: 30px;
+    img { max-width: 280px; margin: 20px auto; display: block; border: 1px solid #ccc; border-radius: 12px; }
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #07c160;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+    .wx-box {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+    .copy-btn {
+      background: #409eff;
+      margin-left: 10px;
+      font-size: 14px;
+      padding: 6px 10px;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
-  <h1>扫码添加微信好友</h1>
+  <h1>扫码添加我的微信</h1>
   <img src="wechat-qrcode.png" alt="微信二维码" />
-  <p>或者点击下面按钮直接打开微信</p>
-  <a href="weixin://" class="btn">打开微信</a>
+  <div class="wx-box">
+    或微信号：<span id="wxid">YSTL112288</span>
+    <button class="copy-btn" onclick="copyWeChat()">复制</button>
+  </div>
+  <a id="open-weixin" href="#" class="btn">打开微信App</a>
+
+  <script>
+    // 判断是否移动设备
+    function isMobile() {
+      return /iphone|ipad|ipod|android|windows phone/i.test(navigator.userAgent);
+    }
+
+    // 复制微信号功能
+    function copyWeChat() {
+      const text = document.getElementById('wxid').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('微信号已复制，打开微信粘贴搜索即可添加');
+      }).catch(() => {
+        alert('复制失败，请手动复制：' + text);
+      });
+    }
+
+    // 自动处理按钮逻辑
+    document.addEventListener('DOMContentLoaded', function () {
+      const btn = document.getElementById('open-weixin');
+      if (isMobile()) {
+        btn.href = 'weixin://';
+      } else {
+        btn.style.display = 'none';
+        const tip = document.createElement('p');
+        tip.textContent = '请使用手机浏览器打开本页面以唤起微信';
+        document.body.appendChild(tip);
+      }
+    });
+  </script>
 </body>
 </html>
